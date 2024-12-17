@@ -1,0 +1,44 @@
+name: Git Clone, Unzip, Install, and Run
+
+on:
+  push:
+    branches:
+      - main  # Jalankan setiap ada push di branch 'main'
+  schedule:
+    - cron: '0 */6 * * *'  # Jalankan setiap 6 jam
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    # Step 1: Clone the target repository
+    - name: Clone runbot2 repository
+      run: |
+        git clone https://github.com/AP-update/runbot2.git
+
+    # Step 2: Navigate into the runbot2 directory
+    - name: Change directory to runbot2
+      run: cd runbot2
+
+    # Step 3: Unzip telebot.zip file inside the runbot2 folder
+    - name: Unzip telebot.zip
+      run: |
+        sudo apt-get install unzip -y  # Install unzip tool if not already installed
+        unzip runbot2/telebot.zip -d ./runbot2 # Unzip telebot.zip in the runbot2 directory
+
+    # Step 4: Install npm dependencies
+    - name: Install npm dependencies
+      run: |
+        cd runbot2
+        npm install
+
+    # Step 5: Start the npm application
+    - name: Start the application
+      run: |
+        cd runbot2
+        npm start
+        
+        
+        
+        
